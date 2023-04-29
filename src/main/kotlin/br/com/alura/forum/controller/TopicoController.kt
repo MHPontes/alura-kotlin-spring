@@ -6,6 +6,7 @@ import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.service.TopicoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 import javax.validation.Valid
@@ -25,6 +26,7 @@ class TopicoController(private val service: TopicoService) {
     }
 
     @PostMapping
+    @Transactional
     fun cadastrar(
             @RequestBody @Valid form: NovoTopicoForm,       //Como boa pretica, estamos utilizando ResponseEntity para apresentarmos uma resposta ao Cliente
             uriBuilder: UriComponentsBuilder //Monta URI ex: localhost:8080             // neste caso estamos retornando 201 Created com body de topicoView
@@ -42,6 +44,8 @@ class TopicoController(private val service: TopicoService) {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+
 //    fun deletar(@PathVariable id: Long):ResponseEntity<String> {             //Comentados sao outra maneira de fazer ou retornar Unit = Vazio ou String
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
